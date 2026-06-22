@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { nav, profile } from "@/lib/data";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -25,9 +26,7 @@ export default function Navbar() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActive(`#${entry.target.id}`);
-          }
+          if (entry.isIntersecting) setActive(`#${entry.target.id}`);
         });
       },
       { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
@@ -41,16 +40,13 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-bg-border bg-bg/80 backdrop-blur-xl"
+          ? "border-b border-bg-border bg-bg/85 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent"
       }`}
     >
       <nav className="mx-auto flex max-w-content items-center justify-between px-6 py-4">
-        <a
-          href="#hero"
-          className="font-mono text-sm font-medium tracking-tight text-ink"
-        >
-          maaz<span className="text-accent">.</span>ali
+        <a href="#hero" className="text-sm font-semibold text-ink">
+          Maaz Ali
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">
@@ -58,7 +54,7 @@ export default function Navbar() {
             <li key={item.href}>
               <a
                 href={item.href}
-                className={`rounded-full px-4 py-2 font-mono text-xs transition-colors ${
+                className={`rounded-full px-4 py-2 text-sm transition-colors ${
                   active === item.href
                     ? "bg-bg-raised text-ink"
                     : "text-ink-dim hover:text-ink"
@@ -71,22 +67,26 @@ export default function Navbar() {
         </ul>
 
         <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
           <a
             href={`mailto:${profile.email}`}
-            className="group inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-xs font-medium text-white shadow-glow transition-transform hover:scale-[1.03]"
+            className="group inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-xs font-medium text-white transition-transform hover:scale-[1.03]"
           >
-            Contact
+            Hire me
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
         </div>
 
-        <button
-          aria-label="Toggle menu"
-          onClick={() => setOpen((v) => !v)}
-          className="inline-flex items-center justify-center rounded-full border border-bg-border p-2 text-ink md:hidden"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            aria-label="Toggle menu"
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex items-center justify-center rounded-full border border-bg-border p-2 text-ink"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>
@@ -95,7 +95,7 @@ export default function Navbar() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
+            transition={{ duration: 0.22, ease: "easeInOut" }}
             className="overflow-hidden border-b border-bg-border bg-bg/95 backdrop-blur-xl md:hidden"
           >
             <ul className="flex flex-col gap-1 px-6 py-4">
@@ -104,7 +104,7 @@ export default function Navbar() {
                   <a
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-lg px-3 py-2.5 font-mono text-sm text-ink-dim hover:bg-bg-raised hover:text-ink"
+                    className="block rounded-xl px-3 py-2.5 text-sm text-ink-dim hover:bg-bg-raised hover:text-ink"
                   >
                     {item.label}
                   </a>
@@ -113,9 +113,10 @@ export default function Navbar() {
               <li className="pt-2">
                 <a
                   href={`mailto:${profile.email}`}
+                  onClick={() => setOpen(false)}
                   className="flex items-center justify-center gap-1.5 rounded-full bg-accent px-4 py-2.5 text-sm font-medium text-white"
                 >
-                  Contact me
+                  Hire me
                 </a>
               </li>
             </ul>

@@ -1,0 +1,29 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
+
+export default function ThemeToggle({ className = "" }: { className?: string }) {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return <div className={`h-9 w-9 ${className}`} aria-hidden="true" />;
+  }
+
+  const isDark = resolvedTheme === "dark";
+
+  return (
+    <button
+      type="button"
+      aria-label="Toggle color theme"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className={`inline-flex h-9 w-9 items-center justify-center rounded-full border border-bg-border text-ink-dim transition-colors hover:text-ink ${className}`}
+    >
+      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+    </button>
+  );
+}
