@@ -1,4 +1,4 @@
-import { Moon, Calculator } from "lucide-react";
+import { Moon, Calculator, ExternalLink } from "lucide-react";
 import { androidApps } from "@/lib/data";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
@@ -33,12 +33,15 @@ export default function AndroidApps() {
                     </div>
                   ) : (
                     <div className="flex aspect-[16/9] w-full items-center justify-center rounded-t-2xl border-b border-bg-border bg-gradient-to-br from-bg-raised to-bg-surface">
-                      <Icon className="h-9 w-9 text-accent-bright opacity-70" strokeWidth={1.5} />
+                      <Icon
+                        className="h-9 w-9 text-accent-bright opacity-70"
+                        strokeWidth={1.5}
+                      />
                     </div>
                   )}
 
                   <div className="p-6">
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-start justify-between gap-3">
                       <h3 className="font-semibold text-ink">{app.name}</h3>
                       <span className="shrink-0 rounded-full border border-bg-border bg-bg-raised px-2.5 py-1 font-mono text-[10px] text-ink-faint">
                         Play Store
@@ -57,6 +60,17 @@ export default function AndroidApps() {
                         </span>
                       ))}
                     </div>
+                    {app.playStoreUrl ? (
+                      <a
+                        href={app.playStoreUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-5 inline-flex items-center gap-1.5 text-xs font-medium text-accent transition-colors hover:text-accent-bright"
+                      >
+                        View on Play Store
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    ) : null}
                   </div>
                 </div>
               </Reveal>

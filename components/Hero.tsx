@@ -26,7 +26,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.05 }}
-          className="mt-2 text-sm font-medium text-accent-bright"
+          className="mt-2 text-sm font-medium text-accent"
         >
           {profile.title}
         </motion.p>
@@ -35,7 +35,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.12 }}
-          className="text-balance mt-6 max-w-3xl text-display-1 font-semibold text-ink"
+          className="mt-6 max-w-3xl text-balance text-display-1 font-semibold text-ink"
         >
           {hero.headline}
         </motion.h1>
@@ -44,7 +44,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-balance mt-6 max-w-xl text-lg text-ink-dim"
+          className="mt-6 max-w-xl text-balance text-lg text-ink-dim"
         >
           {hero.subheadline}
         </motion.p>
@@ -73,7 +73,7 @@ export default function Hero() {
           </a>
           <a
             href={profile.resumeUrl}
-            download
+            download="Maaz_Ali_Resume.pdf"
             className="inline-flex items-center gap-2 rounded-full border border-bg-border px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-accent-dim"
           >
             <Download className="h-4 w-4" />

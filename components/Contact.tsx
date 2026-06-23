@@ -1,24 +1,52 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Github, Linkedin, Mail, Send } from "lucide-react";
+import { Github, Linkedin, Mail, Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { contact, profile } from "@/lib/data";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
+
+type Status = "idle" | "sending" | "success" | "error";
 
 export default function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio inquiry from ${name || "—"}`);
-    const body = encodeURIComponent(`${message}\n\n—\n${name}\n${email}`);
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
-    setSent(true);
+    setStatus("sending");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setErrorMsg(data.error || "Something went wrong.");
+        setStatus("error");
+        return;
+      }
+
+      setStatus("success");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch {
+      setErrorMsg("Network error. Please try again or email directly.");
+      setStatus("error");
+    }
   }
+
+  const inputClass =
+    "w-full rounded-xl border border-bg-border bg-bg-surface px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-accent";
 
   return (
     <section id="contact" className="border-t border-bg-border py-24 sm:py-32">
@@ -27,63 +55,98 @@ export default function Contact() {
 
         <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_0.65fr]">
           <Reveal delay={0.05}>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {status === "success" ? (
+              <div className="flex h-full flex-col items-start justify-center gap-4 rounded-2xl border border-bg-border bg-bg-surface p-8">
+                <CheckCircle className="h-8 w-8 text-accent-bright" />
                 <div>
-                  <label htmlFor="name" className="mb-2 block text-xs font-medium text-ink-dim">
-                    Name
+                  <h3 className="text-lg font-semibold text-ink">Message sent!</h3>
+                  <p className="mt-1 text-sm text-ink-dim">
+                    Got it — I&apos;ll reply to <span className="text-ink">{email || "you"}</span> as soon as possible.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setStatus("idle")}
+                  className="mt-2 text-sm text-accent-bright underline underline-offset-4"
+                >
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="name" className="mb-2 block text-xs font-medium text-ink-dim">
+                      Name
+                    </label>
+                    <input
+                      id="name"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className={inputClass}
+                      placeholder="Your name"
+                      disabled={status === "sending"}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="mb-2 block text-xs font-medium text-ink-dim">
+                      Email
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className={inputClass}
+                      placeholder="you@company.com"
+                      disabled={status === "sending"}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="mb-2 block text-xs font-medium text-ink-dim">
+                    Message
                   </label>
-                  <input
-                    id="name"
+                  <textarea
+                    id="message"
                     required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full rounded-xl border border-bg-border bg-bg-surface px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-accent"
-                    placeholder="Your name"
+                    rows={5}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className={inputClass}
+                    placeholder="Tell me about the role or project..."
+                    disabled={status === "sending"}
                   />
                 </div>
-                <div>
-                  <label htmlFor="email" className="mb-2 block text-xs font-medium text-ink-dim">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-xl border border-bg-border bg-bg-surface px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-accent"
-                    placeholder="you@company.com"
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="message" className="mb-2 block text-xs font-medium text-ink-dim">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  required
-                  rows={5}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="w-full resize-none rounded-xl border border-bg-border bg-bg-surface px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-accent"
-                  placeholder="Tell me about the role or project..."
-                />
-              </div>
-              <button
-                type="submit"
-                className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition-transform hover:scale-[1.02]"
-              >
-                <Send className="h-4 w-4" />
-                Send message
-              </button>
-              {sent ? (
-                <p className="text-xs text-accent-bright">
-                  Opening your email client — if nothing opened, email me directly at {profile.email}
-                </p>
-              ) : null}
-            </form>
+
+                {status === "error" ? (
+                  <div className="flex items-start gap-2 rounded-xl border border-red-900/40 bg-red-950/20 px-4 py-3">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
+                    <p className="text-sm text-red-400">{errorMsg}</p>
+                  </div>
+                ) : null}
+
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition-all hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                >
+                  {status === "sending" ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Sending…
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      Send message
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
           </Reveal>
 
           <Reveal delay={0.1}>
@@ -93,7 +156,7 @@ export default function Contact() {
                 className="group flex items-center gap-3 rounded-xl border border-bg-border bg-bg-surface px-5 py-4 transition-colors hover:border-accent-dim"
               >
                 <Mail className="h-4 w-4 shrink-0 text-accent-bright" />
-                <span className="text-sm text-ink-dim group-hover:text-ink truncate">
+                <span className="truncate text-sm text-ink-dim group-hover:text-ink">
                   {profile.email}
                 </span>
               </a>
