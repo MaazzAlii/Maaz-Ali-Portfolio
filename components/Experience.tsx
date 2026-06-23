@@ -12,8 +12,10 @@ export default function Experience() {
           <div className="mt-10 rounded-2xl border border-bg-border bg-bg-surface p-8">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <h3 className="font-semibold text-ink">{experience.role}</h3>
-                <p className="mt-1 text-sm text-ink-dim">Rawalpindi, Pakistan</p>
+                <h3 className="text-base font-semibold text-ink">{experience.role}</h3>
+                <p className="mt-0.5 text-sm text-ink-dim">
+                  {experience.company} · {experience.location}
+                </p>
               </div>
               <span className="rounded-full border border-bg-border bg-bg-raised px-3 py-1.5 font-mono text-xs text-ink-faint">
                 {experience.period}
@@ -22,7 +24,7 @@ export default function Experience() {
 
             <ul className="mt-6 space-y-3">
               {experience.points.map((point) => (
-                <li key={point} className="flex items-start gap-3 text-sm text-ink-dim">
+                <li key={point} className="flex items-start gap-3 text-sm leading-relaxed text-ink-dim">
                   <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
                   {point}
                 </li>

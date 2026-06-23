@@ -1,4 +1,4 @@
-import { skills } from "@/lib/data";
+import { skillGroups } from "@/lib/data";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 
@@ -8,18 +8,27 @@ export default function Skills() {
       <div className="mx-auto max-w-content px-6">
         <SectionHeading heading="Skills" />
 
-        <Reveal delay={0.08}>
-          <div className="mt-10 flex flex-wrap gap-2.5">
-            {skills.map((skill) => (
-              <span
-                key={skill}
-                className="rounded-full border border-bg-border bg-bg-surface px-4 py-2 text-sm text-ink-dim transition-colors hover:border-accent-dim hover:text-ink"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </Reveal>
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {skillGroups.map((group, i) => (
+            <Reveal key={group.label} delay={i * 0.07}>
+              <div className="h-full rounded-2xl border border-bg-border bg-bg-surface p-5">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-accent-bright">
+                  {group.label}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-bg-border bg-bg-raised px-3 py-1.5 text-xs text-ink-dim transition-colors hover:border-accent-dim hover:text-ink"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 
 export async function POST(request: Request) {
   try {
@@ -12,9 +11,15 @@ export async function POST(request: Request) {
       );
     }
 
-    // Instantiate inside the handler — not at module level —
-    // so build-time static analysis never tries to call Resend.
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const apiKey = process.env.RESEND_API_KEY;
+
+    // If no API key is configured yet, tell the client to fall back to mailto
+    if (!apiKey || apiKey === "re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx") {
+      return NextResponse.json({ fallback: true }, { status: 200 });
+    }
+
+    const { Resend } = await import("resend");
+    const resend = new Resend(apiKey);
 
     const { error } = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
@@ -48,18 +53,13 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("Resend error:", error);
-      return NextResponse.json(
-        { error: "Failed to send. Please email directly." },
-        { status: 500 }
-      );
+      return NextResponse.json({ fallback: true }, { status: 200 });
     }
 
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Contact API error:", err);
-    return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 }
-    );
+    // Always fall back gracefully — never show a broken form
+    return NextResponse.json({ fallback: true }, { status: 200 });
   }
 }

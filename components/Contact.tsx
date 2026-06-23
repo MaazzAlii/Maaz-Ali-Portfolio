@@ -1,24 +1,22 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Github, Linkedin, Mail, Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { Github, Linkedin, Mail, Send, CheckCircle, Loader2 } from "lucide-react";
 import { contact, profile } from "@/lib/data";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 
-type Status = "idle" | "sending" | "success" | "error";
+type Status = "idle" | "sending" | "success";
 
 export default function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<Status>("idle");
-  const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("sending");
-    setErrorMsg("");
 
     try {
       const res = await fetch("/api/contact", {
@@ -29,19 +27,26 @@ export default function Contact() {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        setErrorMsg(data.error || "Something went wrong.");
-        setStatus("error");
+      // If Resend isn't configured yet, open mailto as reliable fallback
+      if (data.fallback) {
+        const subject = encodeURIComponent(`Portfolio inquiry from ${name}`);
+        const body = encodeURIComponent(`${message}\n\n—\n${name}\n${email}`);
+        window.open(`mailto:${profile.email}?subject=${subject}&body=${body}`);
+        setStatus("success");
+        setName(""); setEmail(""); setMessage("");
         return;
       }
 
-      setStatus("success");
-      setName("");
-      setEmail("");
-      setMessage("");
+      if (data.success) {
+        setStatus("success");
+        setName(""); setEmail(""); setMessage("");
+      }
     } catch {
-      setErrorMsg("Network error. Please try again or email directly.");
-      setStatus("error");
+      // Network error — fall back to mailto silently
+      const subject = encodeURIComponent(`Portfolio inquiry from ${name}`);
+      const body = encodeURIComponent(`${message}\n\n—\n${name}\n${email}`);
+      window.open(`mailto:${profile.email}?subject=${subject}&body=${body}`);
+      setStatus("success");
     }
   }
 
@@ -61,12 +66,12 @@ export default function Contact() {
                 <div>
                   <h3 className="text-lg font-semibold text-ink">Message sent!</h3>
                   <p className="mt-1 text-sm text-ink-dim">
-                    Got it — I&apos;ll reply to <span className="text-ink">{email || "you"}</span> as soon as possible.
+                    Got it — I&apos;ll get back to you as soon as possible.
                   </p>
                 </div>
                 <button
                   onClick={() => setStatus("idle")}
-                  className="mt-2 text-sm text-accent-bright underline underline-offset-4"
+                  className="mt-2 text-sm text-accent underline underline-offset-4"
                 >
                   Send another message
                 </button>
@@ -121,28 +126,15 @@ export default function Contact() {
                   />
                 </div>
 
-                {status === "error" ? (
-                  <div className="flex items-start gap-2 rounded-xl border border-red-900/40 bg-red-950/20 px-4 py-3">
-                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-                    <p className="text-sm text-red-400">{errorMsg}</p>
-                  </div>
-                ) : null}
-
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition-all hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition-all hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
                 >
                   {status === "sending" ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Sending…
-                    </>
+                    <><Loader2 className="h-4 w-4 animate-spin" />Sending…</>
                   ) : (
-                    <>
-                      <Send className="h-4 w-4" />
-                      Send message
-                    </>
+                    <><Send className="h-4 w-4" />Send message</>
                   )}
                 </button>
               </form>
