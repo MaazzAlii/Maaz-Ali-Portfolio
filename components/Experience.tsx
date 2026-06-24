@@ -13,9 +13,7 @@ export default function Experience() {
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <h3 className="text-base font-semibold text-ink">{experience.role}</h3>
-                <p className="mt-0.5 text-sm text-ink-dim">
-                  {experience.company} · {experience.location}
-                </p>
+                <p className="mt-0.5 text-sm text-ink-dim">{experience.location}</p>
               </div>
               <span className="rounded-full border border-bg-border bg-bg-raised px-3 py-1.5 font-mono text-xs text-ink-faint">
                 {experience.period}

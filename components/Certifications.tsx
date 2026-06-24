@@ -1,4 +1,4 @@
-import { Award } from "lucide-react";
+import { Award, ExternalLink } from "lucide-react";
 import { certifications } from "@/lib/data";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
@@ -7,32 +7,68 @@ export default function Certifications() {
   return (
     <section id="certifications" className="border-t border-bg-border py-24 sm:py-32">
       <div className="mx-auto max-w-content px-6">
-        <SectionHeading heading="Certifications & Learning" />
+        <SectionHeading
+          heading="Certifications"
+          description="Credentials and ongoing learning. More being added as completed."
+        />
 
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {certifications.map((cert, i) => (
-            <Reveal key={cert.name} delay={i * 0.06}>
-              <div className="flex h-full items-start gap-4 rounded-2xl border border-bg-border bg-bg-surface p-5 transition-colors hover:border-accent-dim">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-bg-border bg-bg-raised">
-                  <Award className="h-4 w-4 text-accent-bright" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-ink">{cert.name}</p>
-                  <p className="mt-0.5 text-xs text-ink-faint">{cert.issuer}</p>
-                  {cert.status ? (
-                    <span className={`mt-2 inline-block rounded-full border px-2 py-0.5 font-mono text-[10px] ${
-                      cert.status === "In Progress"
-                        ? "border-amber-800/40 bg-amber-950/20 text-amber-400"
-                        : "border-accent-dim bg-accent/10 text-accent-bright"
-                    }`}>
-                      {cert.status}
+          {certifications.map((cert, i) => {
+            const isInProgress = cert.status === "In Progress";
+            const Wrapper = cert.credentialUrl ? "a" : "div";
+            const wrapperProps = cert.credentialUrl
+              ? { href: cert.credentialUrl, target: "_blank", rel: "noopener noreferrer" }
+              : {};
+
+            return (
+              <Reveal key={cert.title} delay={i * 0.06}>
+                {/* @ts-expect-error: dynamic tag */}
+                <Wrapper
+                  {...wrapperProps}
+                  className={`group flex h-full flex-col gap-4 rounded-2xl border border-bg-border bg-bg-surface p-5 transition-colors hover:border-accent-dim ${cert.credentialUrl ? "cursor-pointer" : ""}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-bg-border bg-bg-raised">
+                      <Award className="h-4 w-4 text-accent-bright" />
+                    </div>
+                    {cert.status && (
+                      <span className={`rounded-full border px-2.5 py-1 font-mono text-[10px] ${
+                        isInProgress
+                          ? "border-amber-800/40 bg-amber-950/20 text-amber-400"
+                          : "border-accent-dim/50 bg-accent/10 text-accent-bright"
+                      }`}>
+                        {cert.status}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-ink">{cert.title}</p>
+                    <p className="mt-0.5 text-xs text-ink-faint">{cert.provider}</p>
+                    {cert.date && (
+                      <p className="mt-0.5 font-mono text-[11px] text-ink-faint">{cert.date}</p>
+                    )}
+                  </div>
+
+                  {cert.credentialUrl && (
+                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-accent group-hover:text-accent-bright">
+                      <ExternalLink className="h-3 w-3" />
+                      View Credential
                     </span>
-                  ) : null}
-                </div>
-              </div>
-            </Reveal>
-          ))}
+                  )}
+                {/* @ts-expect-error: dynamic tag */}
+                </Wrapper>
+              </Reveal>
+            );
+          })}
         </div>
+
+        <Reveal delay={0.2}>
+          <p className="mt-6 text-xs text-ink-faint">
+            Future certificates from Microsoft, Coursera, DeepLearning.AI, and HEC will be added here.
+            Add them in <code className="font-mono text-ink-faint">lib/data.ts</code>.
+          </p>
+        </Reveal>
       </div>
     </section>
   );

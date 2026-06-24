@@ -1,10 +1,11 @@
-import { Moon, Calculator, ExternalLink } from "lucide-react";
+"use client";
+
+import Image from "next/image";
+import { ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
 import { androidApps } from "@/lib/data";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
-import Image from "next/image";
-
-const iconMap = { Moon, Calculator };
 
 export default function AndroidApps() {
   return (
@@ -12,70 +13,80 @@ export default function AndroidApps() {
       <div className="mx-auto max-w-content px-6">
         <SectionHeading
           heading="Published Apps"
-          description="Two Android apps live on the Play Store with real users."
+          description="Two Android apps live on the Play Store — click to view."
         />
 
         <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {androidApps.map((app, i) => {
-            const Icon = iconMap[app.icon];
-            return (
-              <Reveal key={app.name} delay={i * 0.08}>
-                <div className="h-full rounded-2xl border border-bg-border bg-bg-surface transition-colors hover:border-accent-dim">
-                  {app.image ? (
-                    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-t-2xl bg-bg-raised">
-                      <Image
-                        src={app.image}
-                        alt={app.name}
-                        fill
-                        sizes="(min-width: 640px) 50vw, 100vw"
-                        className="object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex aspect-[16/9] w-full items-center justify-center rounded-t-2xl border-b border-bg-border bg-gradient-to-br from-bg-raised to-bg-surface">
-                      <Icon
-                        className="h-9 w-9 text-accent-bright opacity-70"
-                        strokeWidth={1.5}
-                      />
-                    </div>
-                  )}
+          {androidApps.map((app, i) => (
+            <Reveal key={app.name} delay={i * 0.08}>
+              <motion.a
+                href={app.playStoreUrl ?? "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -3 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+                className="group flex flex-col rounded-2xl border border-bg-border bg-bg-surface overflow-hidden transition-colors hover:border-accent-dim"
+              >
+                {/* Screenshot */}
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-bg-raised">
+                  <Image
+                    src={app.image}
+                    alt={app.name}
+                    fill
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = "/temp.png";
+                    }}
+                  />
+                </div>
 
-                  <div className="p-6">
-                    <div className="flex items-start justify-between gap-3">
-                      <h3 className="font-semibold text-ink">{app.name}</h3>
-                      <span className="shrink-0 rounded-full border border-bg-border bg-bg-raised px-2.5 py-1 font-mono text-[10px] text-ink-faint">
-                        Play Store
-                      </span>
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed text-ink-dim">
-                      {app.description}
-                    </p>
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {app.tags.map((tag) => (
+                <div className="p-6">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-semibold text-ink">{app.name}</h3>
+                    <span className="shrink-0 rounded-full border border-bg-border bg-bg-raised px-2.5 py-1 font-mono text-[10px] text-ink-faint">
+                      Play Store
+                    </span>
+                  </div>
+
+                  <p className="mt-2 text-sm leading-relaxed text-ink-dim">{app.description}</p>
+
+                  {/* Metrics */}
+                  {app.metrics && app.metrics.length > 0 && (
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {app.metrics.map((m) => (
                         <span
-                          key={tag}
-                          className="rounded-full border border-bg-border bg-bg-raised px-2.5 py-1 font-mono text-[11px] text-ink-faint"
+                          key={m}
+                          className="rounded-full border border-accent-dim/40 bg-accent/10 px-2.5 py-1 text-[11px] font-medium text-accent-bright"
                         >
-                          {tag}
+                          {m}
                         </span>
                       ))}
                     </div>
-                    {app.playStoreUrl ? (
-                      <a
-                        href={app.playStoreUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-5 inline-flex items-center gap-1.5 text-xs font-medium text-accent transition-colors hover:text-accent-bright"
+                  )}
+
+                  {/* Tags */}
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {app.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-bg-border bg-bg-raised px-2.5 py-1 font-mono text-[11px] text-ink-faint"
                       >
-                        View on Play Store
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    ) : null}
+                        {tag}
+                      </span>
+                    ))}
                   </div>
+
+                  {app.playStoreUrl && (
+                    <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-accent">
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      View on Play Store
+                    </span>
+                  )}
                 </div>
-              </Reveal>
-            );
-          })}
+              </motion.a>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
