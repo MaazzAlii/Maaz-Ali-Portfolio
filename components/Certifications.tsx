@@ -7,10 +7,7 @@ export default function Certifications() {
   return (
     <section id="certifications" className="border-t border-bg-border py-24 sm:py-32">
       <div className="mx-auto max-w-content px-6">
-        <SectionHeading
-          heading="Certifications"
-          description="Credentials earned. More being added — links will be updated with official certificates."
-        />
+        <SectionHeading heading="Certifications" />
 
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
           {certifications.map((cert, i) => {
@@ -66,13 +63,6 @@ export default function Certifications() {
             );
           })}
         </div>
-
-        <Reveal delay={0.2}>
-          <p className="mt-5 font-mono text-xs text-ink-faint">
-            Credential links will be added when official certificates are issued. Future: Microsoft, Coursera, DeepLearning.AI — add in{" "}
-            <code className="text-ink-faint">lib/data.ts</code>.
-          </p>
-        </Reveal>
       </div>
     </section>
   );

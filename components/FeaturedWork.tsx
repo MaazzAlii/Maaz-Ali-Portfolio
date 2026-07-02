@@ -100,9 +100,6 @@ export default function FeaturedWork() {
           <h2 className="text-[clamp(1.875rem,3.5vw,2.75rem)] font-semibold tracking-tight text-ink">
             Featured Work
           </h2>
-          <p className="mt-3 max-w-xl text-base text-ink-dim">
-            Selected projects — hover the image to browse screenshots.
-          </p>
         </Reveal>
 
         <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">

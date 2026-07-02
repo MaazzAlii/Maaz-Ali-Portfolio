@@ -11,10 +11,7 @@ export default function AndroidApps() {
   return (
     <section id="apps" className="border-t border-bg-border py-24 sm:py-32">
       <div className="mx-auto max-w-content px-6">
-        <SectionHeading
-          heading="Published Apps"
-          description="Two Android apps live on the Play Store — hover the image to browse screenshots."
-        />
+        <SectionHeading heading="Published Apps" />
 
         <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
           {androidApps.map((app, i) => {
