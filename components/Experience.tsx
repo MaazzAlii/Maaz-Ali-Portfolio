@@ -20,7 +20,7 @@ export default function Experience() {
               </span>
             </div>
 
-            <ul className="mt-6 space-y-3">
+            <ul className="mt-6 space-y-3.5">
               {experience.points.map((point) => (
                 <li key={point} className="flex items-start gap-3 text-sm leading-relaxed text-ink-dim">
                   <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />

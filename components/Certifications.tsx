@@ -9,7 +9,7 @@ export default function Certifications() {
       <div className="mx-auto max-w-content px-6">
         <SectionHeading
           heading="Certifications"
-          description="Credentials and ongoing learning. More being added as completed."
+          description="Credentials earned. More being added — links will be updated with official certificates."
         />
 
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -22,7 +22,7 @@ export default function Certifications() {
 
             return (
               <Reveal key={cert.title} delay={i * 0.06}>
-                {/* @ts-expect-error: dynamic tag */}
+                {/* @ts-expect-error dynamic wrapper */}
                 <Wrapper
                   {...wrapperProps}
                   className={`group flex h-full flex-col gap-4 rounded-2xl border border-bg-border bg-bg-surface p-5 transition-colors hover:border-accent-dim ${cert.credentialUrl ? "cursor-pointer" : ""}`}
@@ -48,15 +48,19 @@ export default function Certifications() {
                     {cert.date && (
                       <p className="mt-0.5 font-mono text-[11px] text-ink-faint">{cert.date}</p>
                     )}
+                    {cert.marks && (
+                      <p className="mt-1.5 font-mono text-[11px] font-semibold text-accent-bright">
+                        Score: {cert.marks}
+                      </p>
+                    )}
                   </div>
 
                   {cert.credentialUrl && (
                     <span className="inline-flex items-center gap-1 text-[11px] font-medium text-accent group-hover:text-accent-bright">
-                      <ExternalLink className="h-3 w-3" />
-                      View Credential
+                      <ExternalLink className="h-3 w-3" /> View Credential
                     </span>
                   )}
-                {/* @ts-expect-error: dynamic tag */}
+                {/* @ts-expect-error dynamic wrapper */}
                 </Wrapper>
               </Reveal>
             );
@@ -64,9 +68,9 @@ export default function Certifications() {
         </div>
 
         <Reveal delay={0.2}>
-          <p className="mt-6 text-xs text-ink-faint">
-            Future certificates from Microsoft, Coursera, DeepLearning.AI, and HEC will be added here.
-            Add them in <code className="font-mono text-ink-faint">lib/data.ts</code>.
+          <p className="mt-5 font-mono text-xs text-ink-faint">
+            Credential links will be added when official certificates are issued. Future: Microsoft, Coursera, DeepLearning.AI — add in{" "}
+            <code className="text-ink-faint">lib/data.ts</code>.
           </p>
         </Reveal>
       </div>

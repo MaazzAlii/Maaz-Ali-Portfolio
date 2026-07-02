@@ -13,11 +13,9 @@ export const profile = {
 export const hero = {
   headline: "AI Engineer building intelligent applications, RAG systems, and agentic workflows using LLMs, FastAPI, LangGraph, and modern AI infrastructure.",
   subheadline:
-    "Final-year Computer Science student shipping production-ready AI systems — from multi-agent pipelines to published mobile apps.",
+    "Shipping production-ready AI systems — from multi-agent pipelines and RAG architectures to published mobile apps and Chrome extensions.",
   meta: "NUML Islamabad · open to relocation & remote",
 };
-
-// ─── SKILLS ──────────────────────────────────────────────────────────────────
 
 export type SkillGroup = { label: string; items: string[] };
 
@@ -40,19 +38,20 @@ export const skillGroups: SkillGroup[] = [
   },
 ];
 
-// ─── PROJECTS ────────────────────────────────────────────────────────────────
-
 export type Project = {
   slug: string;
   title: string;
   description: string;
   tech: string[];
-  metrics?: string[];          // e.g. ["Open Source", "Local-First Architecture"]
+  metrics?: string[];
   github?: string;
   demo?: string;
   huggingface?: string;
-  /** Drop file in public/projects/<filename>. Uses /temp.png until replaced. */
+  // Primary thumbnail shown in cards and hero carousel
   image: string;
+  // Additional screenshots shown in the in-card slider (optional)
+  // Drop files in public/projects/ and list paths here
+  images?: string[];
   featured?: boolean;
 };
 
@@ -66,6 +65,10 @@ export const projects: Project[] = [
     metrics: ["Self-Correcting Retrieval", "7-Node StateGraph", "Open Source"],
     github: "https://github.com/MaazzAlii/langchain-agentic-vision-rag",
     image: "/projects/vision-rag.png",
+    images: [
+      "/projects/vision-rag.png",
+      // Add more: "/projects/vision-rag-2.png", "/projects/vision-rag-3.png"
+    ],
     featured: true,
   },
   {
@@ -77,6 +80,10 @@ export const projects: Project[] = [
     metrics: ["ReAct Agent", "Dual Vector Stores", "Open Source"],
     github: "https://github.com/MaazzAlii/docagent-ai",
     image: "/projects/document-comparison.png",
+    images: [
+      "/projects/document-comparison.png",
+      // Add more: "/projects/document-comparison-2.png"
+    ],
     featured: true,
   },
   {
@@ -88,6 +95,10 @@ export const projects: Project[] = [
     metrics: ["3 Specialist Agents", "State Machine Router", "Open Source"],
     github: "https://github.com/MaazzAlii/orchestr-ai",
     image: "/projects/content-pipeline.png",
+    images: [
+      "/projects/content-pipeline.png",
+      // Add more: "/projects/content-pipeline-2.png"
+    ],
     featured: true,
   },
   {
@@ -100,6 +111,10 @@ export const projects: Project[] = [
     github: "https://github.com/MaazzAlii/context-saver-extension",
     demo: "https://chromewebstore.google.com/detail/ai-context-saver-%E2%80%93-chatgp/lfeeefcainjkdadjjcgchjknlbgepfnm",
     image: "/projects/context-saver.png",
+    images: [
+      "/projects/context-saver.png",
+      // Add more: "/projects/context-saver-2.png", "/projects/context-saver-3.png"
+    ],
     featured: true,
   },
   {
@@ -111,22 +126,51 @@ export const projects: Project[] = [
     metrics: ["Real-Time STT/TTS", "Open Source"],
     github: "https://github.com/MaazzAlii/ai-voice-chatbot-python",
     image: "/projects/voice-assistant.png",
-  },
-  {
-    slug: "north-tourism",
-    title: "AI-Assisted Tourism Recommendation & Booking System",
-    description:
-      "Full-stack tourism platform for Northern Pakistan — TF-IDF/SVD recommendation engine, FastAPI backend, JWT auth, React web, and Flutter mobile app.",
-    tech: ["FastAPI", "Flutter", "React", "SQLite", "JWT"],
-    metrics: ["Recommendation Engine", "JWT Authentication", "Booking Management"],
-    github: "https://github.com/MaazzAlii",
-    image: "/projects/tourism-system.png",
+    images: [
+      "/projects/voice-assistant.png",
+      // Add more: "/projects/voice-assistant-2.png"
+    ],
   },
 ];
 
 export const featuredProjects = projects.filter((p) => p.featured);
 
-// ─── ANDROID APPS ────────────────────────────────────────────────────────────
+// FYP — separate type because it has many more images and dedicated section
+export type FYPImage = {
+  path: string;
+  caption: string;
+};
+
+export const fyp = {
+  title: "AI-Assisted Tourism Recommendation & Booking System for Northern Pakistan",
+  shortDescription:
+    "Full-stack Final Year Project — AI-powered tourism platform for Gilgit-Baltistan with a TF-IDF/SVD recommendation engine, FastAPI backend, React web app, and Flutter mobile app.",
+  tech: ["FastAPI", "React", "Flutter", "SQLite", "JWT", "TF-IDF", "SVD", "Python"],
+  metrics: [
+    "Recommendation Engine",
+    "JWT Authentication",
+    "Booking Management",
+    "Real-Time Availability",
+    "Multi-Currency",
+    "Flutter Mobile App",
+  ],
+  github: "https://github.com/MaazzAlii",
+  // Each image has a path + caption describing what it shows
+  // Drop files in public/projects/fyp/ — uses /temp.png until replaced
+  images: [
+    { path: "/projects/fyp/landing.png",        caption: "Landing Page — Hero & Navigation" },
+    { path: "/projects/fyp/recommendations.png", caption: "AI Recommendation Engine" },
+    { path: "/projects/fyp/search.png",          caption: "Destination Search & Filters" },
+    { path: "/projects/fyp/destination.png",     caption: "Destination Detail Page" },
+    { path: "/projects/fyp/booking.png",         caption: "Booking System & Availability" },
+    { path: "/projects/fyp/hotel-detail.png",    caption: "Hotel & Accommodation Detail" },
+    { path: "/projects/fyp/user-dashboard.png",  caption: "User Dashboard & Booking History" },
+    { path: "/projects/fyp/admin-panel.png",     caption: "Admin Panel & Analytics" },
+    { path: "/projects/fyp/flutter-home.png",    caption: "Flutter App — Home Screen" },
+    { path: "/projects/fyp/flutter-explore.png", caption: "Flutter App — Explore & Discover" },
+    // Add more: { path: "/projects/fyp/...", caption: "..." }
+  ] as FYPImage[],
+};
 
 export type AndroidApp = {
   name: string;
@@ -134,8 +178,8 @@ export type AndroidApp = {
   tags: string[];
   metrics?: string[];
   playStoreUrl?: string;
-  /** Drop file in public/apps/<filename>. Uses /temp.png until replaced. */
   image: string;
+  images?: string[];
 };
 
 export const androidApps: AndroidApp[] = [
@@ -147,6 +191,10 @@ export const androidApps: AndroidApp[] = [
     metrics: ["Published on Google Play", "RTL Support", "Qibla + Azan Features"],
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.maazinex.prayer_time_azan_qibla_finder",
     image: "/apps/prayer-times.png",
+    images: [
+      "/apps/prayer-times.png",
+      // Add more: "/apps/prayer-times-2.png", "/apps/prayer-times-3.png"
+    ],
   },
   {
     name: "Pakistani GPA & CGPA Calculator",
@@ -156,63 +204,64 @@ export const androidApps: AndroidApp[] = [
     metrics: ["Published on Google Play", "Multi-University Support", "PDF Export"],
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.maazinex.pakistani_gpa_calculator",
     image: "/apps/gpa-calculator.png",
+    images: [
+      "/apps/gpa-calculator.png",
+      // Add more: "/apps/gpa-calculator-2.png", "/apps/gpa-calculator-3.png"
+    ],
   },
 ];
 
-// ─── EXPERIENCE ───────────────────────────────────────────────────────────────
-
 export const experience = {
-  role: "AI Engineer",
+  role: "Agentic AI Developer & Full Stack Engineer",
   location: "Rawalpindi, Pakistan",
   period: "2025 — Present",
   points: [
-    "Built and deployed AI-powered applications using LangGraph, FastAPI, ChromaDB, and modern LLM frameworks.",
-    "Developed Retrieval-Augmented Generation (RAG) systems, multi-agent workflows, and document intelligence solutions.",
-    "Engineered production-ready backend services using FastAPI, JWT authentication, SQLAlchemy, and REST APIs.",
-    "Published software products across web, browser, and mobile platforms including Chrome Web Store and Google Play Store.",
+    "Architected and deployed multi-agent AI systems using LangGraph StateGraphs — including self-correcting RAG pipelines, ReAct tool-use agents, and orchestrated Researcher/Writer/Reviewer workflows.",
+    "Built production-grade LLM applications integrating ChromaDB vector stores, Mistral AI, and Ollama for semantic retrieval, document intelligence, and real-time conversational AI.",
+    "Engineered scalable backend services with FastAPI, SQLAlchemy, JWT authentication, and REST APIs — deployed and serving real users.",
+    "Shipped cross-platform software to production: Chrome Web Store extension, two Google Play Store apps, and a full-stack tourism platform with a TF-IDF/SVD recommendation engine.",
   ],
 };
-
-// ─── CERTIFICATIONS ──────────────────────────────────────────────────────────
 
 export type Certification = {
   title: string;
   provider: string;
   date?: string;
-  credentialUrl?: string;
+  marks?: string;
   status?: string;
-  /** Drop file in public/certifications/<filename> if you have a PDF/image. */
-  image?: string;
+  // Uncomment credentialUrl and replace "#" with your real certificate/post URL when available
+  credentialUrl?: string;
 };
 
 export const certifications: Certification[] = [
+  {
+    title: "Azure Fundamentals (AZ-900)",
+    provider: "Microsoft",
+    date: "2025",
+    marks: "983 / 1000",
+    status: "Completed",
+    // credentialUrl: "https://www.linkedin.com/in/maazzalii/",  // Replace with actual certificate URL
+  },
   {
     title: "Artificial Intelligence Training",
     provider: "NAVTTC",
     date: "2024",
     status: "Completed",
+    // credentialUrl: "#",  // Replace with actual certificate URL
   },
   {
     title: "Python Essentials 1",
     provider: "Cisco Networking Academy",
     date: "2024",
     status: "Completed",
-  },
-  {
-    title: "Azure Fundamentals (AZ-900)",
-    provider: "Microsoft",
-    status: "In Progress",
+    // credentialUrl: "#",  // Replace with actual certificate URL
   },
 ];
-
-// ─── CONTACT ─────────────────────────────────────────────────────────────────
 
 export const contact = {
   heading: "Let's build something",
   body: "Open to AI Engineer roles, internships, software engineering positions, and freelance projects.",
 };
-
-// ─── NAV ─────────────────────────────────────────────────────────────────────
 
 export const nav = [
   { label: "Work", href: "#featured" },

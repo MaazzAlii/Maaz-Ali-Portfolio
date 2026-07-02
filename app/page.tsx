@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import FeaturedWork from "@/components/FeaturedWork";
 import Projects from "@/components/Projects";
+import FYPSection from "@/components/FYPSection";
 import AndroidApps from "@/components/AndroidApps";
 import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
@@ -17,6 +18,7 @@ export default function Home() {
         <Hero />
         <FeaturedWork />
         <Projects />
+        <FYPSection />
         <AndroidApps />
         <Skills />
         <Experience />

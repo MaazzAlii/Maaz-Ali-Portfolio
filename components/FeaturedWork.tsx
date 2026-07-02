@@ -1,32 +1,26 @@
 "use client";
 
-import Image from "next/image";
 import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import { featuredProjects, type Project } from "@/lib/data";
 import Reveal from "@/components/Reveal";
+import ImageSlider from "@/components/ImageSlider";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 32 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.55,
-      delay: i * 0.1,
-      ease: [0.16, 1, 0.3, 1],
-    },
+    transition: { duration: 0.55, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] },
   }),
 };
 
 function FeaturedCard({ project, index }: { project: Project; index: number }) {
   const primaryUrl = project.demo ?? project.huggingface ?? project.github ?? "#";
+  const sliderImages = project.images && project.images.length > 0 ? project.images : [project.image];
 
   return (
-    <motion.a
-      href={primaryUrl}
-      target="_blank"
-      rel="noopener noreferrer"
+    <motion.div
       custom={index}
       variants={cardVariants}
       initial="hidden"
@@ -35,29 +29,26 @@ function FeaturedCard({ project, index }: { project: Project; index: number }) {
       whileHover={{ y: -5, transition: { duration: 0.2, ease: "easeOut" } }}
       className="group flex flex-col rounded-2xl border border-bg-border bg-bg-surface overflow-hidden transition-[border-color,box-shadow] duration-300 hover:border-accent-dim hover:shadow-glow"
     >
-      {/* Screenshot with zoom */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-bg-raised">
-        <Image
-          src={project.image}
+      <a href={primaryUrl} target="_blank" rel="noopener noreferrer" className="block">
+        <ImageSlider
+          images={sliderImages}
           alt={project.title}
-          fill
           sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
-          onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/temp.png"; }}
         />
-        {/* Subtle overlay on hover */}
-        <div className="absolute inset-0 bg-accent/0 transition-colors duration-300 group-hover:bg-accent/5" />
-      </div>
+      </a>
 
       <div className="flex flex-1 flex-col gap-3 p-6">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-base font-semibold text-ink">{project.title}</h3>
+          <a href={primaryUrl} target="_blank" rel="noopener noreferrer">
+            <h3 className="text-base font-semibold text-ink transition-colors hover:text-accent">
+              {project.title}
+            </h3>
+          </a>
           <ArrowUpRight className="h-4 w-4 shrink-0 text-ink-faint transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent-bright" />
         </div>
 
         <p className="text-sm leading-relaxed text-ink-dim">{project.description}</p>
 
-        {/* Metrics */}
         {project.metrics && project.metrics.length > 0 && (
           <div className="flex flex-wrap gap-1.5 pt-1">
             {project.metrics.map((m) => (
@@ -68,7 +59,6 @@ function FeaturedCard({ project, index }: { project: Project; index: number }) {
           </div>
         )}
 
-        {/* Tech */}
         <div className="flex flex-wrap gap-1.5">
           {project.tech.map((t) => (
             <span key={t} className="rounded-full border border-bg-border bg-bg-raised px-2.5 py-1 font-mono text-[11px] text-ink-faint">
@@ -77,8 +67,7 @@ function FeaturedCard({ project, index }: { project: Project; index: number }) {
           ))}
         </div>
 
-        {/* Buttons */}
-        <div className="mt-auto flex items-center gap-4 pt-2" onClick={(e) => e.preventDefault()}>
+        <div className="mt-auto flex items-center gap-4 pt-2">
           {project.github && (
             <a href={project.github} target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs font-medium text-ink-dim transition-colors hover:text-ink">
@@ -99,7 +88,7 @@ function FeaturedCard({ project, index }: { project: Project; index: number }) {
           )}
         </div>
       </div>
-    </motion.a>
+    </motion.div>
   );
 }
 
@@ -112,7 +101,7 @@ export default function FeaturedWork() {
             Featured Work
           </h2>
           <p className="mt-3 max-w-xl text-base text-ink-dim">
-            Selected projects — click any card to open.
+            Selected projects — hover the image to browse screenshots.
           </p>
         </Reveal>
 
