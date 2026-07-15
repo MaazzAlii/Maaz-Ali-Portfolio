@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Props {
@@ -15,11 +14,15 @@ export default function ImageSlider({
   images,
   alt,
   aspectClass = "aspect-[16/10]",
-  sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
 }: Props) {
   const [idx, setIdx] = useState(0);
+  const [currentSrc, setCurrentSrc] = useState(images[0] ?? "/temp.png");
   const total = images.length;
   const hasMultiple = total > 1;
+
+  useEffect(() => {
+    setCurrentSrc(images[idx] ?? "/temp.png");
+  }, [images, idx]);
 
   function prev(e: React.MouseEvent) {
     e.preventDefault();
@@ -39,16 +42,20 @@ export default function ImageSlider({
     setIdx(i);
   }
 
+  function handleImageError() {
+    if (currentSrc !== "/temp.png") {
+      setCurrentSrc("/temp.png");
+    }
+  }
+
   return (
     <div className={`group/slider relative w-full overflow-hidden bg-bg-raised ${aspectClass}`}>
-      <Image
-        src={images[idx] ?? "/temp.png"}
+      <img
+        src={currentSrc}
         alt={`${alt} — ${idx + 1}`}
-        fill
-        sizes={sizes}
-        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-        onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/temp.png"; }}
-        priority={idx === 0}
+        className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+        loading={idx === 0 ? "eager" : "lazy"}
+        onError={handleImageError}
       />
 
       {hasMultiple && (
