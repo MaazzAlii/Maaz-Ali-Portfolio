@@ -79,10 +79,13 @@ export const projects: Project[] = [
     tech: ["LangGraph", "Python", "Streamlit", "ChromaDB", "Mistral AI"],
     metrics: ["ReAct Agent", "Dual Vector Stores", "Open Source"],
     github: "https://github.com/MaazzAlii/docagent-ai",
-    image: "/projects/document-comparison.png",
+    image: "/projects/doc-comp-1.png",
     images: [
-      "/projects/document-comparison.png",
-      // Add more: "/projects/document-comparison-2.png"
+      "/projects/doc-comp-1.png",
+      "/projects/doc-comp-2.png",
+      "/projects/doc-comp-3.png",
+      "/projects/doc-comp-4.png",
+      "/projects/doc-comp-5.png",
     ],
     featured: true,
   },
