@@ -64,10 +64,15 @@ export const projects: Project[] = [
     tech: ["LangGraph", "Python", "ChromaDB", "Mistral AI", "Ollama"],
     metrics: ["Self-Correcting Retrieval", "7-Node StateGraph", "Open Source"],
     github: "https://github.com/MaazzAlii/langchain-agentic-vision-rag",
-    image: "/projects/vision-rag.png",
+    image: "/projects/vision-rag-1.png",
     images: [
-      "/projects/vision-rag.png",
-      // Add more: "/projects/vision-rag-2.png", "/projects/vision-rag-3.png"
+      "/projects/vision-rag-1.png",
+      "/projects/vision-rag-2.png",
+      "/projects/vision-rag-3.png",
+      "/projects/vision-rag-4.png",
+      "/projects/vision-rag-5.png",
+      "/projects/vision-rag-6.png",
+      "/projects/vision-rag-7.png",
     ],
     featured: true,
   },
