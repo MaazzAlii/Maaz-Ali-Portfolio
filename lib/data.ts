@@ -95,6 +95,18 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: "hr-automation",
+    title: "Enterprise HR Service Automation Engine",
+    description:
+      "LangGraph-orchestrated HR engine that classifies employee requests, enforces deterministic approval policy, and integrates Google Workspace + WhatsApp.",
+    tech: ["LangGraph", "FastAPI", "PostgreSQL", "Redis", "React"],
+    metrics: ["8 HR Intents", "Human Approval Gates", "WhatsApp Integration"],
+    github: "https://github.com/MaazzAlii/enterprise-hr-automation-engine",
+    image: "/projects/hr-automation-1.jpg",
+    images: ["/projects/hr-automation-1.jpg"],
+    featured: true,
+  },
+  {
     slug: "content-pipeline",
     title: "Multi-Agent Content Generation Platform",
     description:
@@ -163,20 +175,14 @@ export const fyp = {
     "Flutter Mobile App",
   ],
   github: "https://github.com/MaazzAlii",
-  // Each image has a path + caption describing what it shows
-  // Drop files in public/projects/fyp/ — uses /temp.png until replaced
+  // Each image has a path + caption describing what it shows.
+  // Real screenshots were never dropped in public/projects/fyp/, which made every
+  // slide 404 against the same missing file on every render — collapsed to the
+  // one existing placeholder until real screenshots are added.
+  // To restore the full gallery: drop files in public/projects/fyp/ and re-add
+  // entries like { path: "/projects/fyp/landing.png", caption: "Landing Page — Hero & Navigation" }.
   images: [
-    { path: "/projects/fyp/landing.png",        caption: "Landing Page — Hero & Navigation" },
-    { path: "/projects/fyp/recommendations.png", caption: "AI Recommendation Engine" },
-    { path: "/projects/fyp/search.png",          caption: "Destination Search & Filters" },
-    { path: "/projects/fyp/destination.png",     caption: "Destination Detail Page" },
-    { path: "/projects/fyp/booking.png",         caption: "Booking System & Availability" },
-    { path: "/projects/fyp/hotel-detail.png",    caption: "Hotel & Accommodation Detail" },
-    { path: "/projects/fyp/user-dashboard.png",  caption: "User Dashboard & Booking History" },
-    { path: "/projects/fyp/admin-panel.png",     caption: "Admin Panel & Analytics" },
-    { path: "/projects/fyp/flutter-home.png",    caption: "Flutter App — Home Screen" },
-    { path: "/projects/fyp/flutter-explore.png", caption: "Flutter App — Explore & Discover" },
-    // Add more: { path: "/projects/fyp/...", caption: "..." }
+    { path: "/temp.png", caption: "AI-Assisted Tourism Recommendation & Booking System" },
   ] as FYPImage[],
 };
 
