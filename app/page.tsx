@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import FeaturedWork from "@/components/FeaturedWork";
+import About from "@/components/About";
 import Projects from "@/components/Projects";
 import FYPSection from "@/components/FYPSection";
 import AndroidApps from "@/components/AndroidApps";
@@ -16,7 +16,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <FeaturedWork />
+        <About />
         <Projects />
         <FYPSection />
         <AndroidApps />

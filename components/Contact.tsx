@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Github, Linkedin, Mail, Send, CheckCircle, Loader2, AlertCircle } from "lucide-react";
-import { contact, profile } from "@/lib/data";
+import { Mail, Send, CheckCircle, Loader2, AlertCircle } from "lucide-react";
+import { contact, profile, socials } from "@/lib/data";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
+import SocialIcon from "@/components/SocialIcon";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -128,16 +129,13 @@ export default function Contact() {
                 <Mail className="h-4 w-4 shrink-0 text-accent-bright" />
                 <span className="truncate select-all text-sm text-ink-dim">{profile.email}</span>
               </div>
-              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer"
-                className="group flex items-center gap-3 rounded-xl border border-bg-border bg-bg-surface px-5 py-4 transition-colors hover:border-accent-dim">
-                <Linkedin className="h-4 w-4 shrink-0 text-accent-bright" />
-                <span className="text-sm text-ink-dim group-hover:text-ink">LinkedIn — MaazzAlii</span>
-              </a>
-              <a href={profile.github} target="_blank" rel="noopener noreferrer"
-                className="group flex items-center gap-3 rounded-xl border border-bg-border bg-bg-surface px-5 py-4 transition-colors hover:border-accent-dim">
-                <Github className="h-4 w-4 shrink-0 text-accent-bright" />
-                <span className="text-sm text-ink-dim group-hover:text-ink">GitHub — MaazzAlii</span>
-              </a>
+              {socials.map((s) => (
+                <a key={s.label} href={s.url} target="_blank" rel="noopener noreferrer"
+                  className="group flex items-center gap-3 rounded-xl border border-bg-border bg-bg-surface px-5 py-4 transition-colors hover:border-accent-dim">
+                  <SocialIcon icon={s.icon} className="h-4 w-4 shrink-0 text-accent-bright" />
+                  <span className="text-sm text-ink-dim group-hover:text-ink">{s.label}</span>
+                </a>
+              ))}
             </div>
           </Reveal>
         </div>

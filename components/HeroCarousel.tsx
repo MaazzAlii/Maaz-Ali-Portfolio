@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { featuredProjects } from "@/lib/data";
 
 const INTERVAL = 4000;
@@ -25,7 +26,7 @@ export default function HeroCarousel() {
   }, [paused, go]);
 
   const project = featuredProjects[index];
-  const primaryUrl = project.demo ?? project.huggingface ?? project.github ?? "#";
+  const detailUrl = `/projects/${project.slug}`;
 
   const variants = {
     enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
@@ -42,7 +43,7 @@ export default function HeroCarousel() {
       {/* Card */}
       <div className="relative overflow-hidden rounded-2xl border border-bg-border bg-bg-surface shadow-card">
         {/* Image */}
-        <a href={primaryUrl} target="_blank" rel="noopener noreferrer" className="group block">
+        <Link href={detailUrl} className="group block">
           <div className="relative aspect-[16/10] w-full overflow-hidden bg-bg-raised">
             <AnimatePresence custom={direction} mode="wait">
               <motion.div
@@ -56,7 +57,7 @@ export default function HeroCarousel() {
                 className="absolute inset-0"
               >
                 <Image
-                  src={project.image}
+                  src={project.image ?? "/temp.png"}
                   alt={project.title}
                   fill
                   sizes="(min-width: 1024px) 45vw, 100vw"
@@ -67,7 +68,7 @@ export default function HeroCarousel() {
               </motion.div>
             </AnimatePresence>
           </div>
-        </a>
+        </Link>
 
         {/* Info row */}
         <div className="px-5 pt-4 pb-5">
@@ -82,24 +83,10 @@ export default function HeroCarousel() {
               <p className="text-sm font-semibold text-ink leading-snug">{project.title}</p>
 
               <div className="mt-3 flex items-center gap-3">
-                {project.github && (
-                  <a href={project.github} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] font-medium text-ink-dim transition-colors hover:text-ink">
-                    <Github className="h-3 w-3" /> GitHub
-                  </a>
-                )}
-                {project.demo && (
-                  <a href={project.demo} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] font-medium text-accent transition-colors hover:text-accent-bright">
-                    <ExternalLink className="h-3 w-3" /> Live Demo
-                  </a>
-                )}
-                {project.huggingface && (
-                  <a href={project.huggingface} target="_blank" rel="noopener noreferrer"
-                    className="text-[11px] font-medium text-amber-400 transition-colors hover:text-amber-300">
-                    🤗 Hugging Face
-                  </a>
-                )}
+                <Link href={detailUrl}
+                  className="inline-flex items-center gap-1 text-[11px] font-medium text-accent transition-colors hover:text-accent-bright">
+                  View details <ArrowUpRight className="h-3 w-3" />
+                </Link>
               </div>
             </motion.div>
           </AnimatePresence>

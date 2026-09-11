@@ -58,7 +58,7 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.28 }}
               className="mt-8 flex flex-wrap items-center gap-3"
             >
-              <a href="#featured"
+              <a href="#projects"
                 className="group inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-white transition-transform hover:scale-[1.02]">
                 View My Work
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

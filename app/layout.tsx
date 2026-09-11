@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
-import { profile } from "@/lib/data";
+import { profile, socials } from "@/lib/data";
 import ThemeProvider from "@/components/ThemeProvider";
 
 const siteUrl = "https://maazali.dev";
@@ -80,7 +80,7 @@ const jsonLd = {
     "Final-year Computer Science student building agentic AI systems, RAG pipelines, and LLM-powered applications.",
   url: siteUrl,
   email: `mailto:${profile.email}`,
-  sameAs: [profile.linkedin, profile.github],
+  sameAs: socials.map((s) => s.url),
   address: {
     "@type": "PostalAddress",
     addressLocality: "Rawalpindi",

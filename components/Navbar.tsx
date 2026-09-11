@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { nav, profile } from "@/lib/data";
@@ -10,6 +11,9 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("");
+  const pathname = usePathname();
+  const onHome = pathname === "/";
+  const hrefFor = (fragment: string) => (onHome ? fragment : `/${fragment}`);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -19,6 +23,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    if (!onHome) return;
     const ids = nav.map((item) => item.href.replace("#", ""));
     const sections = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
 
@@ -33,21 +38,21 @@ export default function Navbar() {
 
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [onHome]);
 
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
       scrolled ? "border-b border-bg-border bg-bg/85 backdrop-blur-xl" : "border-b border-transparent bg-transparent"
     }`}>
       <nav className="mx-auto flex max-w-content items-center justify-between px-6 py-4">
-        <a href="#hero" className="text-sm font-semibold text-ink">{profile.name}</a>
+        <a href={hrefFor("#hero")} className="text-sm font-semibold text-ink">{profile.name}</a>
 
         <ul className="hidden items-center gap-1 md:flex">
           {nav.map((item) => (
             <li key={item.href}>
-              <a href={item.href}
+              <a href={hrefFor(item.href)}
                 className={`rounded-full px-4 py-2 text-sm transition-colors ${
-                  active === item.href ? "bg-bg-raised text-ink" : "text-ink-dim hover:text-ink"
+                  onHome && active === item.href ? "bg-bg-raised text-ink" : "text-ink-dim hover:text-ink"
                 }`}>
                 {item.label}
               </a>
@@ -58,7 +63,7 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           <ThemeToggle />
           {/* Scrolls to contact — never opens email client */}
-          <a href="#contact"
+          <a href={hrefFor("#contact")}
             className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-xs font-medium text-white transition-transform hover:scale-[1.03]">
             Hire me
           </a>
@@ -81,7 +86,7 @@ export default function Navbar() {
             <ul className="flex flex-col gap-1 px-6 py-4">
               {nav.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href} onClick={() => setOpen(false)}
+                  <a href={hrefFor(item.href)} onClick={() => setOpen(false)}
                     className="block rounded-xl px-3 py-2.5 text-sm text-ink-dim hover:bg-bg-raised hover:text-ink">
                     {item.label}
                   </a>
@@ -89,7 +94,7 @@ export default function Navbar() {
               ))}
               <li className="pt-2">
                 {/* Scrolls to contact section — never mailto */}
-                <a href="#contact" onClick={() => setOpen(false)}
+                <a href={hrefFor("#contact")} onClick={() => setOpen(false)}
                   className="flex items-center justify-center rounded-full bg-accent px-4 py-2.5 text-sm font-medium text-white">
                   Hire me
                 </a>
