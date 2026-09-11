@@ -19,7 +19,6 @@ export default function Certifications() {
 
             return (
               <Reveal key={cert.title} delay={i * 0.06}>
-                {/* @ts-expect-error dynamic wrapper */}
                 <Wrapper
                   {...wrapperProps}
                   className={`group flex h-full flex-col gap-4 rounded-2xl border border-bg-border bg-bg-surface p-5 transition-colors hover:border-accent-dim ${cert.credentialUrl ? "cursor-pointer" : ""}`}
@@ -57,7 +56,6 @@ export default function Certifications() {
                       <ExternalLink className="h-3 w-3" /> View Credential
                     </span>
                   )}
-                {/* @ts-expect-error dynamic wrapper */}
                 </Wrapper>
               </Reveal>
             );
