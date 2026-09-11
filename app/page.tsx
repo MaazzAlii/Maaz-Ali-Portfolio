@@ -4,6 +4,7 @@ import About from "@/components/About";
 import Projects from "@/components/Projects";
 import FYPSection from "@/components/FYPSection";
 import AndroidApps from "@/components/AndroidApps";
+import Channels from "@/components/Channels";
 import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
 import Certifications from "@/components/Certifications";
@@ -20,6 +21,7 @@ export default function Home() {
         <Projects />
         <FYPSection />
         <AndroidApps />
+        <Channels />
         <Skills />
         <Experience />
         <Certifications />

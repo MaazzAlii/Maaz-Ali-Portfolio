@@ -5,6 +5,7 @@ import { ArrowLeft, Github, ExternalLink, Lock } from "lucide-react";
 import { projects, getProjectBySlug, profile } from "@/lib/data";
 import ImageSlider from "@/components/ImageSlider";
 import ProjectPlaceholder from "@/components/ProjectPlaceholder";
+import ProjectTabs from "@/components/ProjectTabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -76,10 +77,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 {project.title}
               </h1>
 
-              <p className="mt-4 text-base leading-relaxed text-ink-dim">
-                {project.longDescription ?? project.description}
-              </p>
-
               {project.metrics && project.metrics.length > 0 && (
                 <div className="mt-5 flex flex-wrap gap-2">
                   {project.metrics.map((m) => (
@@ -134,6 +131,10 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 )}
               </div>
             </div>
+          </div>
+
+          <div className="mt-14">
+            <ProjectTabs project={project} />
           </div>
 
           {otherProjects.length > 0 && (

@@ -40,7 +40,11 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.12 }}
               className="mt-5 text-[clamp(1.65rem,3.5vw,2.6rem)] font-semibold leading-[1.14] tracking-[-0.022em] text-ink"
             >
-              {hero.headline}
+              {hero.headlinePrefix}
+              <span className="bg-gradient-to-r from-accent to-accent-bright bg-clip-text text-transparent">
+                {hero.headlineHighlight}
+              </span>
+              {hero.headlineSuffix}
             </motion.h1>
 
             <motion.p
@@ -75,11 +79,25 @@ export default function Hero() {
               </a>
             </motion.div>
 
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.36 }}
+              className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-bg-border pt-6"
+            >
+              {hero.stats.map((s) => (
+                <div key={s.label}>
+                  <p className="text-xl font-semibold text-ink">{s.value}</p>
+                  <p className="text-xs text-ink-faint">{s.label}</p>
+                </div>
+              ))}
+            </motion.div>
+
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="mt-10 font-mono text-xs text-ink-faint"
+              transition={{ duration: 0.5, delay: 0.44 }}
+              className="mt-6 font-mono text-xs text-ink-faint"
             >
               {hero.meta}
             </motion.p>
